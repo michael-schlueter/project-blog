@@ -4,7 +4,7 @@ import clsx from "clsx";
 import { Rss, Sun, Moon } from "react-feather";
 import Cookie from "js-cookie";
 
-import { LIGHT_COLORS, DARK_COLORS } from "@/constants";
+import { LIGHT_TOKENS, DARK_TOKENS, COLOR_THEME_COOKIE_NAME } from "@/constants";
 
 import Logo from "@/components/Logo";
 import VisuallyHidden from "@/components/VisuallyHidden";
@@ -20,13 +20,13 @@ function Header({ initialTheme, className, ...delegated }) {
     setTheme(nextTheme);
 
     // Update the cookie, for the user's next visit
-    Cookie.set("color-theme", nextTheme, {
+    Cookie.set(COLOR_THEME_COOKIE_NAME, nextTheme, {
       expires: 1000,
     });
 
     // Update the DOM to present the new colors
     const root = document.documentElement;
-    const colors = nextTheme === "light" ? LIGHT_COLORS : DARK_COLORS;
+    const colors = nextTheme === "light" ? LIGHT_TOKENS : DARK_TOKENS;
 
     // Edit the data-attribute, so that we can apply CSS conditionally based on the theme
     root.setAttribute("data-color-theme", nextTheme);

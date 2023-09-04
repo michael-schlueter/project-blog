@@ -3,7 +3,7 @@ import { Work_Sans, Spline_Sans_Mono } from "next/font/google";
 import clsx from "clsx";
 import { cookies } from "next/headers";
 
-import { LIGHT_TOKENS, DARK_TOKENS, BLOG_TITLE, BLOG_DESCRIPTION } from "@/constants";
+import { LIGHT_TOKENS, DARK_TOKENS, BLOG_TITLE, BLOG_DESCRIPTION, COLOR_THEME_COOKIE_NAME } from "@/constants";
 
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
@@ -30,7 +30,7 @@ export const metadata = {
 
 function RootLayout({ children }) {
   // TODO: Dynamic theme depending on user preference
-  const savedTheme = cookies().get("color-theme");
+  const savedTheme = cookies().get(COLOR_THEME_COOKIE_NAME);
   const theme = savedTheme?.value || "light";
 
   return (
