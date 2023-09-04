@@ -1,6 +1,7 @@
 import React from "react";
 import { MDXRemote } from "next-mdx-remote/rsc";
 import COMPONENT_MAP from "@/helpers/mdx-components";
+import { notFound } from "next/navigation";
 
 import BlogHero from "@/components/BlogHero";
 
@@ -9,7 +10,13 @@ import { loadBlogPost } from "@/helpers/file-helpers";
 import { BLOG_TITLE } from "@/constants";
 
 export async function generateMetadata({ params }) {
-  const { frontmatter } = await loadBlogPost(params.postSlug);
+  const blogPostData = await loadBlogPost(params.postSlug);
+
+  if (!blogPostData) {
+    return null;
+  }
+
+  const { frontmatter } = blogPostData;
 
   return {
     title: `${frontmatter.title} • ${BLOG_TITLE}`,
@@ -18,7 +25,14 @@ export async function generateMetadata({ params }) {
 }
 
 async function BlogPost({ params }) {
-  const { frontmatter, content } = await loadBlogPost(params.postSlug);
+  const blogPostData = await loadBlogPost(params.postSlug);
+
+  // If there is no blog post with the slug, render a 404 page instead
+  if (!blogPostData) {
+    notFound();
+  }
+
+  const { frontmatter, content } = blogPostData;
 
   return (
     <article className={styles.wrapper}>
